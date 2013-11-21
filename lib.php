@@ -1,20 +1,48 @@
 <?php
+require_once($CFG->libdir.'/adminlib.php');
+require_once($CFG->libdir.'/pluginlib.php');
+require_once($CFG->libdir.'/upgradelib.php');
+
+$MDK = get_config("local_mdk");
+if(!empty($MDK->reload_plugins)){
+	$MDK->reload_plugins = unserialize($MDK->reload_plugins);
+}
+
+function mdk_reload_plugins($plugins, $verbose=true){
+	foreach($plugins as $plugin){
+		list($pluginType, $pluginName) = explode("_",$plugin);
+		uninstall_plugin($pluginType, $pluginName);
+	}
+	upgrade_noncore($verbose);
+}
 
 
-function mdk_set_tabs($currenttab){
+function mdk_set_tools_tabs($currenttab){
 	global $USER,$CFG;
 	$context = context_system::instance(0);
 
 	$tabs = array();
 	$row = array();
-	$row[] = new tabobject('PLUGINS', $CFG->wwwroot.'/local/mdk/index.php', "Install/Update plugins");
-	$row[] = new tabobject('CMD', $CFG->wwwroot.'/local/mdk/system.php', "CMD");
-	$row[] = new tabobject('SQL', $CFG->wwwroot.'/local/mdk/sql.php', "SQL");
-	$row[] = new tabobject('FAST', $CFG->wwwroot.'/local/mdk/fast.php', "Fast Commands");
-	
+	$row[] = new tabobject('CMD', $CFG->wwwroot.'/local/mdk/tools/system.php', "CMD");
+	$row[] = new tabobject('SQL', $CFG->wwwroot.'/local/mdk/tools/sql.php', "SQL");
 	$tabs[] = $row;
 	print_tabs($tabs, $currenttab);
 }
+
+
+function mdk_plugins_set_tabs($currenttab){
+	global $USER,$CFG;
+	$context = context_system::instance(0);
+
+	$tabs = array();
+	$row = array();
+	$row[] = new tabobject('INSTALL', $CFG->wwwroot.'/local/mdk/index.php', "Install/Update plugins");
+	$row[] = new tabobject('RELOAD_REINSTALL', $CFG->wwwroot.'/local/mdk/reload_plugins.php', "Reinstall Plugins");
+
+	$tabs[] = $row;
+	print_tabs($tabs, $currenttab);
+}
+
 
 # recursively remove a directory
 function mdk_rrmdir($path) {

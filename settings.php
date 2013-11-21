@@ -30,17 +30,16 @@ if ($hassiteconfig) { // needs this condition or there is error on login page
 	$ADMIN->add('development', new admin_category('mdk', get_string('pluginname', 'local_mdk')));
 	
     $ADMIN->add('mdk', new admin_externalpage('emdk_install_or_update',
-            "Install/Update plugins",
+            "Plugins Manager",
             new moodle_url('/local/mdk/index.php')));
     
     $ADMIN->add('mdk', new admin_externalpage('mdk_system',
-    		"Console",
-    		new moodle_url('/local/mdk/system.php')));
-
-    $ADMIN->add('mdk', new admin_externalpage('mdk_sql',
-    		"SQL",
-    		new moodle_url('/local/mdk/sql.php')));
+    		"Tools",
+    		new moodle_url('/local/mdk/tools/system.php')));
     $ADMIN->add('mdk', new admin_externalpage('mdk_fast',
     		"Fast commands",
     		new moodle_url('/local/mdk/fast.php')));
+    $ADMIN->add('mdk', new admin_externalpage('mdk_editor',
+    		"Theme Editor",
+    		new moodle_url('/local/mdk/theme_editor.php')));
 }

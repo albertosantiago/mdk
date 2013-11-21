@@ -15,9 +15,9 @@ $PAGE->set_heading("Moodle Development Kit");
 $PAGE->requires->js("/vendors/jquery/jquery-1.9.1.min.js");
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading("");
+echo $OUTPUT->heading("Plugins Manager");
 
-mdk_set_tabs("PLUGINS");
+mdk_plugins_set_tabs("INSTALL");
 ?>
 <script type="text/javascript">
 
@@ -41,6 +41,7 @@ mdk_set_tabs("PLUGINS");
 	<select name="type">
 		<option value="1">Theme</option>
 		<option value="2">Local</option>
+		<option value="2">Block</option>
 	</select>
 	&nbsp;&nbsp;&nbsp;&nbsp;
 	<input type="file" name="plugin">
@@ -68,7 +69,7 @@ mdk_set_tabs("PLUGINS");
 <pre>
 <?php 
 	if(!empty($_POST)){
-		$installer = new Emdk_Install();
+		$installer = new Mdk_Install();
 		switch($_POST['type']){
 			case 1:
 				$installer->installTheme();
